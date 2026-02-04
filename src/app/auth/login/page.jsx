@@ -19,6 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { CustomButton } from "@/components/application/CustomButton";
 import Link from "next/link";
+import { WEBSITE_REGISTER } from "@/routes/websiteRoute";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -134,12 +135,14 @@ const LoginPage = () => {
             />
             <div className="text-center text-gray-600 flex justify-center gap-1">
               <p>Don't have account?</p>
-              <Link href={""} className="text-primary underline">
+              <Link href={WEBSITE_REGISTER} className="text-primary underline">
                 Create account
               </Link>
             </div>
             <div className="text-center -mt-4 text-primary underline">
-              Forgot Password?
+              <Link href="#" className="text-primary underline">
+                Forgot Password?
+              </Link>
             </div>
           </form>
         </Form>
