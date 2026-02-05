@@ -39,11 +39,17 @@ const RegisterPage = () => {
   const handleRegisterSubmit = async (data) => {
     setIsLoading(true);
     try {
-      console.log("Register Data: ", data);
-      // Add your actual registration logic here
-      // await registerFunction(data);
+      const { data: res } = await axios.post("/api/auth/register", {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
+      if (!res) throw new Error(res.message);
+      form.reset();
+      alert(res.message);
     } catch (error) {
       console.error("Registration error:", error);
+      alert(res.message || "An error occurred during registration.");
     } finally {
       setIsLoading(false);
     }
