@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { CustomButton } from "@/components/application/CustomButton";
 import Link from "next/link";
 import { WEBSITE_LOGIN } from "@/routes/websiteRoute";
+import { showToast } from "@/lib/showToast";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,10 +47,19 @@ const RegisterPage = () => {
       });
       if (!res) throw new Error(res.message);
       form.reset();
-      alert(res.message);
+      showToast(
+        "success",
+        res.message ||
+          "Registration successful! Please check your email to verify your account.",
+      );
     } catch (error) {
       console.error("Registration error:", error);
-      alert(res.message || "An error occurred during registration.");
+      showToast(
+        "error",
+        error.response?.data?.message ||
+          error.message ||
+          "Registration failed. Please try again.",
+      );
     } finally {
       setIsLoading(false);
     }
