@@ -43,12 +43,11 @@ export async function POST(request) {
       .setIssuedAt()
       .setExpirationTime("1h")
       .sign(secret);
-
     await sendMail(
       "Email Verification from Developer Harris",
       newUser.email,
       emailVerificationLink(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/verify-email/${token}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/${token}`,
       ),
     );
 
