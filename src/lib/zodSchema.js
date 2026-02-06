@@ -29,4 +29,5 @@ export const otpSchema = z.object({
     .string()
     .length(6, "OTP must be exactly 6 digits")
     .regex(/^\d{6}$/, "OTP must contain only digits"),
+  email: z.string().email("Please enter a valid email address"),
 });

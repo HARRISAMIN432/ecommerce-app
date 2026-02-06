@@ -43,7 +43,7 @@ export async function POST(req) {
         .sign(secret);
       await sendMail(
         "Email Verification from Developer Harris",
-        newUser.email,
+        getUser.email,
         emailVerificationLink(
           `${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-email/${token}`,
         ),

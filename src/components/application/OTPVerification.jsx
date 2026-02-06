@@ -7,7 +7,6 @@ import {
   Form,
   FormField,
   FormItem,
-  FormLabel,
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
@@ -18,8 +17,13 @@ import {
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { CustomButton } from "@/components/application/CustomButton";
+import { useState } from "react";
+import { showToast } from "@/lib/showToast";
+import axios from "axios";
 
 const OTPVerification = ({ email, onSubmit, loading }) => {
+  const [isResendingOtp, setIsResendingOtp] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(otpSchema),
     defaultValues: {
@@ -30,6 +34,34 @@ const OTPVerification = ({ email, onSubmit, loading }) => {
 
   const handleSubmit = async (data) => {
     onSubmit(data);
+  };
+
+  const resendOTP = async () => {
+    setIsResendingOtp(true);
+    try {
+      const { data: resendOTPResponse } = await axios.post(
+        "/api/auth/resend-otp",
+        { email },
+      );
+      if (!resendOTPResponse.success) {
+        throw new Error(resendOTPResponse.message || "OTP resend failed");
+      }
+      showToast(
+        "success",
+        resendOTPResponse.message ||
+          "OTP resent successfully! Please check your email.",
+      );
+    } catch (error) {
+      console.error("Resend OTP Error:", error);
+      showToast(
+        "error",
+        error.response?.data?.message ||
+          error.message ||
+          "Error resending OTP. Please try again later.",
+      );
+    } finally {
+      setIsResendingOtp(false);
+    }
   };
 
   return (
@@ -74,14 +106,22 @@ const OTPVerification = ({ email, onSubmit, loading }) => {
         <div className="mb-3">
           <CustomButton
             type="submit"
-            text="Verify OTP"
+            text="Verify"
             loading={loading}
             className="w-full h-11 text-lg font-medium"
           />
           <div className="text-center mt-5">
-            <button type="button" className="text-blue-500 hover:underline">
-              Resend OTP
-            </button>
+            {!isResendingOtp ? (
+              <button
+                type="button"
+                onClick={resendOTP}
+                className="text-blue-500 hover:underline"
+              >
+                Resend OTP
+              </button>
+            ) : (
+              <span className="text-md">Resending...</span>
+            )}
           </div>
         </div>
       </form>

@@ -38,7 +38,34 @@ const LoginPage = () => {
     },
   });
 
-  const handleOTPVerification = async () => {};
+  const handleOTPVerification = async (data) => {
+    SetOTPVerificationLoading(true);
+    try {
+      const { data: otpResponse } = await axios.post(
+        "/api/auth/verify-otp",
+        data,
+      );
+      if (!otpResponse.success) {
+        throw new Error(otpResponse.message || "Login Failed");
+      }
+      setOtpEmail("");
+      showToast(
+        "success",
+        otpResponse.message ||
+          "OTP verified successfully! Redirecting to dashboard...",
+      );
+    } catch (error) {
+      console.error("Login error:", error);
+      showToast(
+        "error",
+        error.response?.data?.message ||
+          error.message ||
+          "Login failed. Please check your credentials and try again.",
+      );
+    } finally {
+      SetOTPVerificationLoading(false);
+    }
+  };
 
   const handleLoginSubmit = async (data) => {
     setIsLoading(true);
