@@ -23,6 +23,8 @@ import { WEBSITE_REGISTER } from "@/routes/websiteRoute";
 import axios from "axios";
 import { showToast } from "@/lib/showToast";
 import OTPVerification from "@/components/application/OTPVerification";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/reducer/authReducer";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +32,7 @@ const LoginPage = () => {
   const [otpEmail, setOtpEmail] = useState(false);
   const [OTPVerificationLoading, SetOTPVerificationLoading] = useState(false);
 
+  const dispatch = useDispatch();
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -81,6 +84,7 @@ const LoginPage = () => {
         loginResponse.message ||
           "Login successful! Redirecting to dashboard...",
       );
+      dispatch(login);
     } catch (error) {
       console.error("Login error:", error);
       showToast(
