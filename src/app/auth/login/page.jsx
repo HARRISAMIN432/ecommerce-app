@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { CustomButton } from "@/components/application/CustomButton";
 import Link from "next/link";
-import { WEBSITE_REGISTER } from "@/routes/websiteRoute";
+import { WEBSITE_REGISTER, WEBSITE_RESETPASS } from "@/routes/websiteRoute";
 import axios from "axios";
 import { showToast } from "@/lib/showToast";
 import OTPVerification from "@/components/application/OTPVerification";
@@ -163,7 +163,6 @@ const LoginPage = () => {
                       <FormControl>
                         <Input
                           type={isTypePassword ? "password" : "text"}
-                          placeholder="••••••••"
                           className="h-11 text-base"
                           {...field}
                         />
@@ -197,7 +196,10 @@ const LoginPage = () => {
                   </Link>
                 </div>
                 <div className="text-center -mt-4 text-primary underline">
-                  <Link href="#" className="text-primary underline">
+                  <Link
+                    href={WEBSITE_RESETPASS}
+                    className="text-primary underline"
+                  >
                     Forgot Password?
                   </Link>
                 </div>

@@ -1,6 +1,7 @@
 import { response } from "./response";
 
 export const catchError = (err, customMessage) => {
+  console.log(e);
   if (err.code === 11000) {
     const keys = Object.keys(err.keyPattern).join(", ");
     err.message = `Duplicate value for field(s): ${keys}`;

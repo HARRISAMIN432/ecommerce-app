@@ -152,7 +152,6 @@ const RegisterPage = () => {
                     <div className="relative">
                       <Input
                         type={isTypePassword ? "password" : "text"}
-                        placeholder="••••••••"
                         className="h-11 text-base pr-10"
                         {...field}
                       />
@@ -187,7 +186,6 @@ const RegisterPage = () => {
                     <div className="relative">
                       <Input
                         type={isTypeConfirmPassword ? "password" : "text"}
-                        placeholder="••••••••"
                         className="h-11 text-base pr-10"
                         {...field}
                       />
